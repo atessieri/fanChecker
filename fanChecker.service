@@ -1,0 +1,21 @@
+[Unit]
+Description=Fan checker
+Wants=basic.target
+After=basic.target network.target
+StartLimitIntervalSec=30
+StartLimitBurst=3
+
+[Service]
+Type=simple
+user=fan-checker
+Group=fan-checker
+ExecStart=/usr/bin/fanChecker
+KillMode=process
+Restart=always
+RestartSec=10s
+TimeoutStopSec=30
+StartLimitInterval=30
+StartLimitBurst=3
+
+[Install]
+WantedBy=multi-user.target
