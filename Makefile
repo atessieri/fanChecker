@@ -32,20 +32,33 @@ ${TARGET}:${OBJ_O}
 	$(CC) $(CFLAGS) $(OBJ_O) -o $@ $(LIB)
 
 ${DIR_BIN}/%.o : $(DIR_Examples)/%.c
+	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c  $< -o $@ $(LIB) -I $(DIR_OBJ) -I $(DIR_Config) -I $(DIR_FONT)  -I $(DIR_OLED)
 
 ${DIR_BIN}/%.o : $(DIR_OBJ)/%.c
+	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c  $< -o $@ $(LIB) -I $(DIR_Config) -I $(DIR_FONT) -I $(DIR_OLED) 
     
 ${DIR_BIN}/%.o : $(DIR_OLED)/%.c
+	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c  $< -o $@ $(LIB) -I $(DIR_Config) -I $(DIR_FONT) 
 
 ${DIR_BIN}/%.o : $(DIR_FONT)/%.c
+	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c  $< -o $@ $(LIB)
     
 ${DIR_BIN}/%.o : $(DIR_Config)/%.c
+	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c  $< -o $@ $(LIB)
 
 clean :
 	rm $(DIR_BIN)/*.* 
 	rm $(TARGET) 
+
+install:
+	cp -f fanChecker.service /usr/lib/systemd/system/
+	cp -f fanChecker /usr/bin/
+	systemctl daemon-reload
+	systemctl enable fanChecker
+	systemctl restart fanChecker
+# creare utente fan-checker e inserirlo gruppo i2c

@@ -7,7 +7,7 @@ StartLimitBurst=3
 
 [Service]
 Type=simple
-user=fan-checker
+User=fan-checker
 Group=fan-checker
 ExecStart=/usr/bin/fanChecker
 KillMode=process
